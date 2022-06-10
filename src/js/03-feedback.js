@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const local = 'feedback-form-state';
 const form = document.querySelector('form');
 const email = document.querySelector('input[type="email"]');
@@ -5,7 +7,7 @@ const options = { email: '', message: '' };
 
 localStorage.setItem(local, JSON.stringify(options));
 
-form.addEventListener('input', inputChange);
+form.addEventListener('input', _.throttle(inputChange, 500));
 
 function inputChange(e) {
   const checkIfEmail = e.target == email;
