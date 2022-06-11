@@ -3,27 +3,42 @@ import _ from 'lodash';
 const local = 'feedback-form-state';
 const form = document.querySelector('form');
 const email = document.querySelector('input[type="email"]');
+const message = document.querySelector('textarea[name="message"]');
 const options = { email: '', message: '' };
 
-localStorage.setItem(local, JSON.stringify(options));
-
-form.addEventListener('input', _.throttle(inputChange, 500));
-
-function inputChange(e) {
-  const checkIfEmail = e.target == email;
-  if (checkIfEmail) {
+form.addEventListener('input', function (e) {
+  if (e.target == email) {
     options.email = e.target.value;
+    result();
   } else {
     options.message = e.target.value;
-  }
-  return options && localStorage.setItem(local, JSON.stringify(options));
+    result()
+  } 
+  return options;
+});
+
+const result = _.throttle(updateLocalStorage, 500);
+
+function updateLocalStorage() {
+  localStorage.setItem(local, JSON.stringify(options));
 }
 
 form.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
-  e.preventDefault();
-  console.log(options);
-  localStorage.clear();
-  form.reset();
+   e.preventDefault();
+   console.log(options);
+   localStorage.clear();
+   form.reset();
 }
+
+const parsedStorage = JSON.parse(localStorage.getItem(local));
+
+window.onload = fillForm(parsedStorage);
+
+function fillForm(obj) {
+  if(parsedStorage !== null){
+    message.value = obj.message;
+    email.value = obj.email;}
+}
+

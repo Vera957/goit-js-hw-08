@@ -22,12 +22,7 @@ player
     switch (error.name) {
       case 'RangeError':
         break;
-
-      default:
-        {
-          save, load;
-        }
-        break;
     }
   });
 
+  
