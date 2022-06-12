@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { set } from 'lodash';
 
 const local = 'feedback-form-state';
 const form = document.querySelector('form');
@@ -9,11 +9,10 @@ const options = { email: '', message: '' };
 form.addEventListener('input', function (e) {
   if (e.target == email) {
     options.email = e.target.value;
-    result();
   } else {
     options.message = e.target.value;
-    result()
-  } 
+  }
+  result();
   return options;
 });
 
@@ -26,10 +25,10 @@ function updateLocalStorage() {
 form.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
-   e.preventDefault();
-   console.log(options);
-   localStorage.clear();
-   form.reset();
+  e.preventDefault();
+  console.log(options);
+  localStorage.clear();
+  form.reset();
 }
 
 const parsedStorage = JSON.parse(localStorage.getItem(local));
@@ -37,8 +36,10 @@ const parsedStorage = JSON.parse(localStorage.getItem(local));
 window.onload = fillForm(parsedStorage);
 
 function fillForm(obj) {
-  if(parsedStorage !== null){
+  if (parsedStorage !== null) {
     message.value = obj.message;
-    email.value = obj.email;}
+    email.value = obj.email;
+    options.message = parsedStorage.message;
+    options.email = parsedStorage.email;
+  }
 }
-
