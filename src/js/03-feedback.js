@@ -6,12 +6,9 @@ const email = document.querySelector('input[type="email"]');
 const message = document.querySelector('textarea[name="message"]');
 const options = { email: '', message: '' };
 
-form.addEventListener('input', function (e) {
-  if (e.target == email) {
-    options.email = e.target.value;
-  } else {
-    options.message = e.target.value;
-  }
+form.addEventListener('input', function (e) { 
+    options.email = e.currentTarget.elements.email.value;
+    options.message = e.currentTarget.elements.message.value;
   result();
   return options;
 });
